@@ -9,6 +9,7 @@ def print_exception_msg(msg: str = '', stream: int = None):
     stream = Fore.BLUE + f' [{stream}]' if stream else ''
     print(Fore.MAGENTA + '[ERROR]' + stream, Fore.CYAN + location,
           Style.RESET_ALL + f'{msg}')
+    err_log(location, msg)
 
 
 def print_info_msg(msg: str = '', stream: int = None):
@@ -22,3 +23,9 @@ def print_info_msg(msg: str = '', stream: int = None):
 def print_progress_msg(msg: str = ''):
     print(Fore.BLUE + '[PROGRESS]', Style.RESET_ALL + f'{msg}')
     print('________________________________________________________')
+
+
+def err_log(location, msg):
+    f = open("error.log", "a")
+    f.write('[' + location + ']: ' + msg + '\n')
+    f.close()

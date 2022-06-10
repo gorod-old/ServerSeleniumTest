@@ -33,7 +33,7 @@ def try_func(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            print_exception_msg(msg=f'@try_func - some error')
+            # print_exception_msg(msg=f'@try_func - some error')
             err_log(str(e))
     return wrapper
 
@@ -59,7 +59,7 @@ def get_driver():
             driver = webdriver.Chrome(service=service, options=options)
             return driver
         except Exception as e:
-            print_exception_msg(str(e))
+            # print_exception_msg(str(e))
             if setup.DEV:
                 check_chromedriver(driver)
             else:
@@ -94,14 +94,14 @@ def get_user_agent():
         for ua in user_agents:
             if len(ua) == 0:
                 user_agents.remove(ua)
-        print_info_msg(f' user agent list count: {len(user_agents)}')
+        # print_info_msg(f' user agent list count: {len(user_agents)}')
     return choice(user_agents) if len(user_agents) > 0 else None
 
 
 def pars_data():
     driver = get_driver()
     if driver is None:
-        print_info_msg('Failed to get webdriver instance, check Chrome installation and version.')
+        # print_info_msg('Failed to get webdriver instance, check Chrome installation and version.')
         return None
     driver.get('https://brusnika-dom.ru/выбор-квартир-таблица/')
     while True:
@@ -114,8 +114,9 @@ def pars_data():
             bt.click()
             sleep(3)
         except Exception as e:
-            print_exception_msg(str(e))
-    print_info_msg(f'els: {len(els)}')
+            # print_exception_msg(str(e))
+            pass
+    # print_info_msg(f'els: {len(els)}')
     data = []
     for el in els:
         row = []
@@ -127,21 +128,21 @@ def pars_data():
                 print('data count:', len(data))
                 return data
         except Exception as e:
-            print_exception_msg(str(e))
+            # print_exception_msg(str(e))
             row.append('')
         # статус
         try:
             el_ = el.find_element(By.CSS_SELECTOR, 'td:nth-child(3) div p').text
             row.append(el_)
         except Exception as e:
-            print_exception_msg(str(e))
+            # print_exception_msg(str(e))
             row.append('')
         # цена
         try:
             el_ = el.find_element(By.CSS_SELECTOR, 'td:nth-child(4) div').text
             row.append(el_)
         except Exception as e:
-            print_exception_msg(str(e))
+            # print_exception_msg(str(e))
             row.append('')
         print(row)
         data.append(row)

@@ -28,6 +28,22 @@ HEADER = ['Квартира', 'Статус', 'Цена']
 user_agents = None
 
 
+def try_func(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print_exception_msg(msg=f'@try_func - some error')
+            err_log(str(e))
+    return wrapper
+
+
+def err_log(msg):
+    f = open("error.log", "a")
+    f.write(msg + '\n')
+    f.close()
+
+
 def get_driver():
     driver = None
     for i in range(10):
@@ -132,6 +148,7 @@ def pars_data():
     return data
 
 
+@try_func
 def check_table_data():
     data_ = pars_data()
     if data_ and len(data_) > 0:

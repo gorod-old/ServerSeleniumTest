@@ -1,0 +1,25 @@
+sudo vim /etc/systemd/system/proj_name.service
+_________________________________________________________________
+[Unit]
+Description=Test online bot
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStart=/home/user/venvs/proj_venv/bin/python start_file.py
+ExecReload=/home/user/venvs/proj_venv/bin/python start_file.py
+WorkingDirectory=/home/user/projects/proj_name/
+KillMode=process
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+__________________________________________________________________
+
+sudo systemctl daemon-reload
+
+sudo systemctl enable proj_name.service
+sudo systemctl start proj_name.service
+
+sudo systemctl status proj_name.service
